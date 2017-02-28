@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimal-ui, shrink-to-fit=no">
+    <title>BodyMovin Player</title>
+    <link rel="stylesheet" href="style.css" media="screen" title="no title">
+  </head>
+  <body>
+    <div class='error u-vertical-center'><h1 class="u-vertical-el">Your Browser is outdaded</h1></div>
+    <main>
+      <div class="body-cont u-vertical-center"><div class='u-vertical-el'><div class="bodymovin-player" id='player'></div></div></div>
+      <form id='form' class="box has-advanced-upload" method="get" action="" enctype="multipart/form-data">
+        <div class="box__input u-vertical-center">
+          <div class='u-vertical-el'>
+            <input class="box__file" type="file" accept=".json" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
+            <label for="file">Drag your <strong>JSON</strong> here !</label>
+          </div>
+        </div>
+      </form>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
