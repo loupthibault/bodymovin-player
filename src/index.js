@@ -1,6 +1,4 @@
-import classes    from 'dom-classes';
-import {on, off}  from 'dom-events';
-import bodymovin  from 'bodymovin';
+import lottie from 'lottie-web';
 
 const dom = {
   body: document.body,
@@ -19,28 +17,26 @@ function isAdvancedUpload() {
 
 isAdvancedUpload() ? start() : showError();
 
-function showError() { classes.add(dom.body, 'is-outdated'); }
+function showError() { dom.body.classList.add('is-outdated'); }
 
 function start() {
-  classes.add(dom.body, 'is-available');
+  dom.body.classList.add('is-available');
   addEvents();
 }
 
 function addEvents() {
-  on(dom.form, 'drag', onDrag);
-  on(dom.form, 'dragstart', onDrag);
 
-  on(dom.form, 'dragover', onDragEnter);
-  on(dom.form, 'dragenter', onDragEnter);
+  dom.form.addEventListener('drag', onDrag);
+  dom.form.addEventListener('dragstart', onDrag);
+  dom.form.addEventListener('dragover', onDragEnter);
+  dom.form.addEventListener('dragenter', onDragEnter);
+  dom.form.addEventListener('dragleave', onDragEnd);
+  dom.form.addEventListener('dragend', onDragEnd);
+  dom.form.addEventListener('drop', onDrop);
+  
+  dom.form.addEventListener('click', clickForm)
 
-  on(dom.form, 'dragleave', onDragEnd);
-  on(dom.form, 'dragend', onDragEnd);
-
-  on(dom.form, 'drop', onDrop);
-
-  on(dom.form, 'click', clickForm)
-
-  on(window, 'click', onToogle);
+  window.addEventListener('click', onToogle);
 }
 
 
@@ -61,19 +57,20 @@ function onDrag(e) {
 function onDragEnter(e) {
   e.preventDefault();
   e.stopPropagation();
-  classes.add(dom.body, 'is-dragover');
+  dom.body.classList.add('is-dragover');
 }
 
 function onDragEnd(e) {
   e.preventDefault();
   e.stopPropagation();
-  classes.remove(dom.body, 'is-dragover');
+  dom.body.classList.remove('is-dragover');
+  
 }
 
 function onDrop(e) {
   e.preventDefault();
   e.stopPropagation();
-  classes.remove(dom.body, 'is-dragover');
+  dom.body.classList.remove('is-dragover');
   const droppedFiles = e.dataTransfer.files;
   if(!droppedFiles.length)return;
   const file = droppedFiles[0];
@@ -85,7 +82,7 @@ function onDrop(e) {
 // -------------- filreader
 
 function onFileReaded(e) {
-  classes.add(dom.body, 'is-playing');
+  dom.body.classList.add('is-playing');
   const json = JSON.parse(e.target.result);
 
   dom.player.innerHTML = '';
@@ -93,7 +90,7 @@ function onFileReaded(e) {
 
   player && player.destroy();
 
-  player = bodymovin.loadAnimation({
+  player = lottie.loadAnimation({
     container: dom.player, // the dom element
     renderer: 'svg',
     loop: true,
