@@ -1,6 +1,6 @@
 {
   "name": "bodymovin-player",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Basic player to visualize svg animation played via Bodymovin javascript library",
   "main": "index.js",
   "repository": "git@github.com:loupthibault/bodymovin-player.git",
