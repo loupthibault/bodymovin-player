@@ -22,21 +22,24 @@ function showError() { dom.body.classList.add('is-outdated'); }
 function start() {
   dom.body.classList.add('is-available');
   addEvents();
+  setupKeyDown();
 }
 
 function addEvents() {
 
-  dom.form.addEventListener('drag', onDrag);
-  dom.form.addEventListener('dragstart', onDrag);
-  dom.form.addEventListener('dragover', onDragEnter);
-  dom.form.addEventListener('dragenter', onDragEnter);
-  dom.form.addEventListener('dragleave', onDragEnd);
-  dom.form.addEventListener('dragend', onDragEnd);
-  dom.form.addEventListener('drop', onDrop);
-  
-  dom.form.addEventListener('click', clickForm)
+  const a = 'addEventListener';
 
-  window.addEventListener('click', onToogle);
+  dom.form[a]('drag', onDrag);
+  dom.form[a]('dragstart', onDrag);
+  dom.form[a]('dragover', onDragEnter);
+  dom.form[a]('dragenter', onDragEnter);
+  dom.form[a]('dragleave', onDragEnd);
+  dom.form[a]('dragend', onDragEnd);
+  dom.form[a]('drop', onDrop);
+  
+  dom.form[a]('click', clickForm)
+
+  window[a]('click', onToogle);
 }
 
 
@@ -105,4 +108,29 @@ function onToogle(e) {
   if(!player)return;
   isPlaying = !isPlaying;
   isPlaying ? player.play() : player.pause();
+}
+
+
+/* -------- KeyDown -------- */
+
+function setupKeyDown() 
+{
+  var i = -1;
+  const list = ['w', 'b', 't'];
+  const html = document.documentElement;
+  
+  const on = (e) => 
+  {
+    switch(e.keyCode)
+    {
+
+      case 67:
+        i = ++i < list.length ? i : 0;
+        html.dataset.th = list[i];
+        break;
+    }
+  };
+
+
+  document.addEventListener('keydown', on);
 }
