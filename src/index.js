@@ -1,136 +1,128 @@
-import lottie from 'lottie-web';
+const $body = document.body;
 
-const dom = {
-  body: document.body,
-  form: document.getElementById('form'),
-  player: document.getElementById('player'),
-  svg: null
-};
-
-var player = null, 
+let player = null,
     isPlaying = false;
 
-function isAdvancedUpload() {
-  const div = document.createElement('div');
-  return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
+const isAdvancedUpload = () =>
+{
+    const div = document.createElement('div');
+    return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 };
 
-isAdvancedUpload() ? start() : showError();
+const showError = () => $body.classList.add('is-outdated');
 
-function showError() { dom.body.classList.add('is-outdated'); }
+const start = () =>
+{
+    $body.classList.add('is-available');
+    addEvents();
+    setupKeyDown();
+};
 
-function start() {
-  dom.body.classList.add('is-available');
-  addEvents();
-  setupKeyDown();
-}
+const addEvents = () =>
+{
+    const a = 'addEventListener';
+    const $form = document.getElementById('form');
 
-function addEvents() {
+    const onDrag = e =>  (e.preventDefault(), e.stopPropagation());
 
-  const a = 'addEventListener';
+    $form[a]('drag', onDrag);
+    $form[a]('dragstart', onDrag);
+    $form[a]('dragover', onDragEnter);
+    $form[a]('dragenter', onDragEnter);
+    $form[a]('dragleave', onDragEnd);
+    $form[a]('dragend', onDragEnd);
+    $form[a]('drop', onDrop);
 
-  dom.form[a]('drag', onDrag);
-  dom.form[a]('dragstart', onDrag);
-  dom.form[a]('dragover', onDragEnter);
-  dom.form[a]('dragenter', onDragEnter);
-  dom.form[a]('dragleave', onDragEnd);
-  dom.form[a]('dragend', onDragEnd);
-  dom.form[a]('drop', onDrop);
-  
-  dom.form[a]('click', clickForm)
+    $form[a]('click', e => e.preventDefault());
 
-  window[a]('click', onToogle);
-}
+    window[a]('click', onToogle);
+};
 
 
-//________________________________________________________ events
+// ________________________________________________________ events
 // -
 
 // -------------- drag and drop
 
-function clickForm(e) {
-  e.preventDefault();
-}
+const onDragEnter = e =>
+{
+    e.preventDefault();
+    e.stopPropagation();
+    $body.classList.add('is-dragover');
+};
 
-function onDrag(e) {
-  e.preventDefault();
-  e.stopPropagation();
-}
+const onDragEnd = e =>
+{
+    e.preventDefault();
+    e.stopPropagation();
+    $body.classList.remove('is-dragover');
+};
 
-function onDragEnter(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  dom.body.classList.add('is-dragover');
-}
-
-function onDragEnd(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  dom.body.classList.remove('is-dragover');
-  
-}
-
-function onDrop(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  dom.body.classList.remove('is-dragover');
-  const droppedFiles = e.dataTransfer.files;
-  if(!droppedFiles.length)return;
-  const file = droppedFiles[0];
-  const fr = new FileReader();
-  fr.onload = onFileReaded;
-  fr.readAsText(file);
-}
+const onDrop = e =>
+{
+    e.preventDefault();
+    e.stopPropagation();
+    $body.classList.remove('is-dragover');
+    const droppedFiles = e.dataTransfer.files;
+    if(!droppedFiles.length) return;
+    const file = droppedFiles[0];
+    const fr = new FileReader();
+    fr.onload = onFileReaded;
+    fr.readAsText(file);
+};
 
 // -------------- filreader
 
-function onFileReaded(e) {
-  dom.body.classList.add('is-playing');
-  const json = JSON.parse(e.target.result);
+const onFileReaded = e =>
+{
+    const json = JSON.parse(e.target.result);
+    const $player = document.getElementById('player');
 
-  dom.player.innerHTML = '';
-  isPlaying = true;
+    $body.classList.add('is-playing');
+    $player.innerHTML = '';
 
-  player && player.destroy();
+    isPlaying = true;
 
-  player = lottie.loadAnimation({
-    container: dom.player, // the dom element
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-    animationData: json // the animation data
-  });
+    player && player.destroy();
 
-  dom.svg = dom.player.querySelector('svg');
-}
+    player = window.lottie.loadAnimation({
+        container: $player, // the dom element
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: json // the animation data
+    });
+};
 
-function onToogle(e) {
-  if(!player)return;
-  isPlaying = !isPlaying;
-  isPlaying ? player.play() : player.pause();
-}
+const onToogle = () =>
+{
+    if(!player) return;
+    isPlaying = !isPlaying;
+    isPlaying ? player.play() : player.pause();
+};
 
 
 /* -------- KeyDown -------- */
 
-function setupKeyDown() 
+const setupKeyDown = () =>
 {
-  var i = -1;
-  const list = ['w', 'b', 't'];
-  const html = document.documentElement;
-  
-  const on = (e) => 
-  {
-    switch(e.keyCode)
+    let i = -1;
+    const list = ['w', 'b', 't'];
+    const html = document.documentElement;
+
+    const on = e =>
     {
+        switch(e.keyCode)
+        {
+            case 67:
+                i = ++i < list.length ? i : 0;
+                html.dataset.th = list[i];
+                break;
+        }
+    };
 
-      case 67:
-        i = ++i < list.length ? i : 0;
-        html.dataset.th = list[i];
-        break;
-    }
-  };
+    document.addEventListener('keydown', on);
+};
 
 
-  document.addEventListener('keydown', on);
-}
+isAdvancedUpload() ? start() : showError();

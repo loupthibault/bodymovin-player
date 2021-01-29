@@ -9,9 +9,7 @@
     "url": "https://github.com/loupthibault"
   },
   "license": "MIT",
-  "dependencies": {
-    "lottie-web": "5.7.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
