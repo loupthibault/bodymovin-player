@@ -1,6 +1,6 @@
 {
   "name": "bodymovin-player",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Basic player to visualize svg animation played via Bodymovin javascript library",
   "main": "index.js",
   "repository": "git@github.com:loupthibault/bodymovin-player.git",
@@ -9,34 +9,27 @@
     "url": "https://github.com/loupthibault"
   },
   "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@rollup/plugin-babel": "^5.2.3",
-    "@rollup/plugin-commonjs": "^17.1.0",
-    "@rollup/plugin-node-resolve": "^11.1.1",
-    "eslint": "^7.18.0",
-    "gh-pages": "^3.1.0",
-    "rollup": "^2.38.1",
-    "rollup-plugin-terser": "^7.0.2"
-  },
   "scripts": {
-    "start": "npm run dev",
     "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "deploy": "npm run build && gh-pages -d build"
+    "watch": "rollup -c -w",
+    "dev": "npm-run-all --parallel start watch",
+    "start": "serve public",
+    "deploy": "npm run build && gh-pages -d public"
   },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
-    ]
+  "dependencies": {
+    "lottie-web": "^5.9.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "eslint": "^8.15.0",
+    "gh-pages": "^3.2.3",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.72.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "serve": "^13.0.2"
   }
 }

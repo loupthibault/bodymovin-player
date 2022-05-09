@@ -1,4 +1,4 @@
-# Bodymovin Player
+# LottieWeb Player
 
 Basic player to visualize svg animation played via Bodymovin javascript library.
 
@@ -6,4 +6,4 @@ Basic player to visualize svg animation played via Bodymovin javascript library.
 
 ***
 
-Visit [Bodymovin](https://github.com/bodymovin/bodymovin).
+Visit [LottieWeb](https://github.com/airbnb/lottie-web).

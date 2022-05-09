@@ -5,17 +5,17 @@ import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
 
-export default 
+export default
 {
     input: 'src/index.js',
     output: {
-        file: 'build/bundle.js',
+        file: 'public/bundle.js',
         format: 'iife'
     },
     plugins: [
         resolve(),
         commonjs(),
-        babel({ babelHelpers: 'bundled'}),
+        babel({ babelHelpers: 'bundled' }),
         production && terser({ output: { comments: false } })
     ]
 };

@@ -1,5 +1,7 @@
 # Browsers that we support
 last 2 versions
-> 0.25%
 not dead
-IE 11
+not IE 11
+not baidu >= 0
+not op_mini all
+not and_qq >= 0

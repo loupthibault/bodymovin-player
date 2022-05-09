@@ -1,3 +1,5 @@
+import lottie from 'lottie-web';
+
 const $body = document.body;
 
 let player = null,
@@ -85,7 +87,7 @@ const onFileReaded = e =>
 
     player && player.destroy();
 
-    player = window.lottie.loadAnimation({
+    player = lottie.loadAnimation({
         container: $player, // the dom element
         renderer: 'svg',
         loop: true,
